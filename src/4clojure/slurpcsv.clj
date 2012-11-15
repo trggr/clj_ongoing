@@ -1,9 +1,8 @@
 (ns tt.csvslurp)
 
-;;; This is a set of functions to read the CSV file with database table
-;;; metadata, and later generate a DDL script to create tables according
-;;; to such metadata
-;;;
+;; Read CSV file with database metadata, generating a DDL script
+;; to create table
+;;
 (defn slurpcsv [file]
   "Load a CSV-delimited file into a list of vectors"
   (map #(clojure.string/split % #",")
