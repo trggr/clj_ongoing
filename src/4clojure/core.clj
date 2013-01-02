@@ -27,7 +27,7 @@
     (if-not c
       acc
       (recur (conj acc (first c))
-         (next c)))))
+	     (next c)))))
 
 (fn [coll]
   "Returns the sum of a sequence of numbers"
@@ -648,3 +648,10 @@
 (defn f [& args]
   (letfn [(multipliers [n] (apply sorted-set (map #(* n %) (range 1 20))))]
     (apply clojure.set/intersection (map multipliers args))))
+
+; #146 Trees into tables
+(defn f [m]
+  (let [fns (for [i m j (val i)]
+              [(key i) (key j)])
+        rcs (map #(get-in m %) fns)]
+    (zipmap fns rcs)))
