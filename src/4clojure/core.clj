@@ -655,3 +655,22 @@
               [(key i) (key j)])
         rcs (map #(get-in m %) fns)]
     (zipmap fns rcs)))
+
+; # 147 Pascal's trapezoid
+(defn pasc [v]
+  (letfn [(f [v]
+             (let [[x y] (reduce
+                           (fn [[acc prev] x]
+                             [(conj acc (+' prev x)) x])
+                           [[] 0]
+                           v)]
+               (conj x y)))]
+      (iterate f v)))
+
+; #110 Pronounce sequence
+(fn pronounce [coll]
+  (letfn [(f [coll]
+             (flatten
+               (map (fn [x] [(count x) (first x)])
+                     (partition-by identity coll))))]
+    (iterate f (f coll))))
