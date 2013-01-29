@@ -674,3 +674,26 @@
                (map (fn [x] [(count x) (first x)])
                      (partition-by identity coll))))]
     (iterate f (f coll))))
+
+; # 171 Find intervals
+(defn intervals [coll]
+  (letfn [(f [mp e]
+              "Takes map and element e. Puts e into map -- either in
+               a current interval or creates a new one retiring a current one to
+               a list of intervals"
+             (println mp)
+              (let [{:keys [low high current inters]} mp]
+                (if (and (>= e low)
+                         (or (nil? high) (<= e (inc high))))
+                  (assoc mp :high e :current (conj current e))
+                  (assoc mp :low e :high (inc e) :current [e] :inters (conj inters current)))))]
+    (let [m {:low 0
+             :high nil
+             :current []
+             :inters []}
+          rs (reduce f m (sort coll))
+          {:keys [current inters]} rs
+          all-inters (conj inters current)]
+      (if (zero? (count coll))
+        []
+        (map #(apply (juxt min max) %) all-inters)))))
